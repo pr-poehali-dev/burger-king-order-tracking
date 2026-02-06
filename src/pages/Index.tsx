@@ -166,7 +166,7 @@ const Index = () => {
               </div>
 
               {activeTab === 'dashboard' && (
-              <div>
+                <div className="space-y-6">
                 <h4 className="text-lg font-bold mb-4">Ключевые показатели</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                   {keyMetrics.map((metric, index) => (
@@ -281,7 +281,7 @@ const Index = () => {
                     </CardContent>
                   </Card>
                 </div>
-              </div>
+                </div>
               )}
 
               {activeTab === 'analytics' && <AnalyticsPage />}
