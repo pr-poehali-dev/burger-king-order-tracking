@@ -3,9 +3,14 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import CreateOrderModal from '@/components/CreateOrderModal';
+import WarehousePage from '@/components/WarehousePage';
+import AnalyticsPage from '@/components/AnalyticsPage';
 
 const Index = () => {
   const [activeSection, setActiveSection] = useState('orders');
+  const [activeTab, setActiveTab] = useState('dashboard');
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const menuItems = [
     { id: 'orders', label: 'Заказы', icon: 'ShoppingCart' },
@@ -77,9 +82,11 @@ const Index = () => {
         <header className="bg-card border-b border-border px-8 py-4 flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2 text-sm text-muted-foreground mb-1">
-              <span>Заказы</span>
+              <span>{menuItems.find(item => item.id === activeSection)?.label}</span>
             </div>
-            <h2 className="text-2xl font-bold text-foreground">Заказы</h2>
+            <h2 className="text-2xl font-bold text-foreground">
+              {menuItems.find(item => item.id === activeSection)?.label}
+            </h2>
           </div>
           <div className="flex items-center gap-4">
             <button className="relative p-2 hover:bg-muted rounded-lg transition-colors">
@@ -100,42 +107,66 @@ const Index = () => {
 
         <div className="flex-1 overflow-y-auto p-8">
           <div className="max-w-7xl mx-auto space-y-8">
-            <div>
-              <h3 className="text-xl font-bold mb-2">Управление заказами</h3>
-              <p className="text-muted-foreground">Отслеживайте и управляйте всеми заказами</p>
-            </div>
+            {activeSection === 'warehouse' ? (
+              <WarehousePage />
+            ) : (
+              <>
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Управление заказами</h3>
+                  <p className="text-muted-foreground">Отслеживайте и управляйте всеми заказами</p>
+                </div>
 
-            <div className="flex gap-3">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
-                <Icon name="Plus" size={20} className="mr-2" />
-                Создать заказ
-              </Button>
-              <Button size="lg" variant="outline" className="font-semibold">
-                <Icon name="ArrowLeftRight" size={20} className="mr-2" />
-                Внутреннее перемещение
-              </Button>
-              <Button size="lg" variant="outline" className="font-semibold">
-                <Icon name="FileText" size={20} className="mr-2" />
-                Сформировать отчёт
-              </Button>
-            </div>
+                <div className="flex gap-3">
+                  <Button 
+                    size="lg" 
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+                    onClick={() => setIsOrderModalOpen(true)}
+                  >
+                    <Icon name="Plus" size={20} className="mr-2" />
+                    Создать заказ
+                  </Button>
+                  <Button size="lg" variant="outline" className="font-semibold">
+                    <Icon name="ArrowLeftRight" size={20} className="mr-2" />
+                    Внутреннее перемещение
+                  </Button>
+                  <Button size="lg" variant="outline" className="font-semibold">
+                    <Icon name="FileText" size={20} className="mr-2" />
+                    Сформировать отчёт
+                  </Button>
+                </div>
 
-            <div>
+                <div>
               <div className="flex gap-4 mb-6 border-b border-border">
-                <button className="px-4 py-3 border-b-2 border-primary text-primary font-semibold">
+                <button 
+                  onClick={() => setActiveTab('dashboard')}
+                  className={`px-4 py-3 font-semibold transition-colors ${
+                    activeTab === 'dashboard' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
                   <Icon name="LayoutDashboard" size={18} className="inline mr-2" />
                   Дашборд
                 </button>
-                <button className="px-4 py-3 text-muted-foreground hover:text-foreground font-semibold transition-colors">
+                <button 
+                  onClick={() => setActiveTab('list')}
+                  className={`px-4 py-3 font-semibold transition-colors ${
+                    activeTab === 'list' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
                   <Icon name="List" size={18} className="inline mr-2" />
                   Список заказов
                 </button>
-                <button className="px-4 py-3 text-muted-foreground hover:text-foreground font-semibold transition-colors">
+                <button 
+                  onClick={() => setActiveTab('analytics')}
+                  className={`px-4 py-3 font-semibold transition-colors ${
+                    activeTab === 'analytics' ? 'border-b-2 border-primary text-primary' : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
                   <Icon name="BarChart3" size={18} className="inline mr-2" />
                   Аналитика
                 </button>
               </div>
 
+              {activeTab === 'dashboard' && (
               <div>
                 <h4 className="text-lg font-bold mb-4">Ключевые показатели</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
@@ -252,10 +283,30 @@ const Index = () => {
                   </Card>
                 </div>
               </div>
-            </div>
+              )}
+
+              {activeTab === 'analytics' && <AnalyticsPage />}
+
+              {activeTab === 'list' && (
+                <div className="space-y-4">
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Список всех заказов</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-muted-foreground">Здесь будет полный список заказов с расширенными фильтрами</p>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </main>
+
+      <CreateOrderModal open={isOrderModalOpen} onClose={() => setIsOrderModalOpen(false)} />
     </div>
   );
 };
