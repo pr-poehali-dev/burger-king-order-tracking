@@ -107,9 +107,9 @@ const Index = () => {
 
         <div className="flex-1 overflow-y-auto p-8">
           <div className="max-w-7xl mx-auto space-y-8">
-            {activeSection === 'warehouse' ? (
-              <WarehousePage />
-            ) : (
+            {activeSection === 'warehouse' && <WarehousePage />}
+            
+            {activeSection === 'orders' && (
               <>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Управление заказами</h3>
@@ -299,10 +299,56 @@ const Index = () => {
                   </Card>
                 </div>
               )}
-                </div>
-              </>
-            )}
-          </div>
+            </div>
+          )}
+
+          {activeSection === 'receiving' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Приёмка</h2>
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <Icon name="PackageCheck" size={48} className="mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">Раздел в разработке</p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {activeSection === 'writeoffs' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Списания</h2>
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <Icon name="FileX" size={48} className="mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">Раздел в разработке</p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {activeSection === 'calendar' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Календарь</h2>
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <Icon name="Calendar" size={48} className="mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">Раздел в разработке</p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {activeSection === 'references' && (
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Справочники</h2>
+              <Card>
+                <CardContent className="p-12 text-center">
+                  <Icon name="BookOpen" size={48} className="mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">Раздел в разработке</p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
         </div>
       </main>
 
