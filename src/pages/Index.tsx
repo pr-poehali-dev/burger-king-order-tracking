@@ -135,7 +135,6 @@ const Index = () => {
                   </Button>
                 </div>
 
-                <div>
               <div className="flex gap-4 mb-6 border-b border-border">
                 <button 
                   onClick={() => setActiveTab('dashboard')}
@@ -299,7 +298,6 @@ const Index = () => {
                   </Card>
                 </div>
               )}
-            </div>
           )}
 
           {activeSection === 'receiving' && (
